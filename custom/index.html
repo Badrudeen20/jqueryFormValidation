@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+            #content {
+                margin: 0 auto;
+                width: 960px;
+                background-color: #cccccc;
+            }
+            
+                #content h1 {
+                    text-align: center;
+                    text-decoration: underline;
+                }
+            
+            table {
+                width: 100%;
+            }
+            
+                table tr td {
+                    width: 40%;
+                    text-align: center;
+                }
+            
+            #errorDiv {
+                background-color: red;
+                color: #FFFFFF;
+                padding-left:25px;
+            }
+    </style>
+</head>
+<body>
+    <div id="content">
+        <h1>Apply For a Job</h1>
+        <div id="errorDiv"></div>
+        <table>
+            <tr>
+                <td>Name:-</td>
+                <td><input type="text" id="nameInput"/></td>
+            </tr>
+            <tr>
+                <td>Age:-</td>
+                <td><input type="text" id="ageInput"/></td>
+            </tr>
+            <tr>
+                <td>Email:-</td>
+                <td><input type="text" id="emailInput" /></td>
+            </tr>
+            <tr>
+                <td>Sex:-</td>
+                <td>
+                    <select id="sexSelect">
+                        <option value="Select">Select Your Sex</option>
+                        <option value="M">Male</option>
+                        <option value="F">Female</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>Are You Married?:-</td>
+                <td>(Yes or Checked/No for UnChecked)<input type="checkbox" title="Yes" id="marriedCheckBox"/>                                                                                                 
+                </td> 
+            </tr>
+            <tr>
+                <td>You Have US Work Permit?:-</td>
+                <td>Yes<input type="radio" id="workPermitYesRadio" name="workPermitYesRadio" value="Yes"/><br />
+                    No<input type="radio" id="workPermitNoRadio" name="workPermitYesRadio" value="No" />
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2"><input type="submit" id="submitButton" value="Apply"/></td>
+            </tr>
+        </table>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+
+    <script type="text/javascript" lang="javascript">
+        function EmailValidate() {
+            var numericExpression = /^w.+@[a-zA-Z_-]+?.[a-zA-Z]{2,3}$/;
+            var elem = $("#emailInput").val();
+            if (elem.match(numericExpression))
+                return true;
+            else
+                return false;
+        }
+      
+        function ValidateAll() {
+            var errorCounter = 0;
+            var errorMessage = "";
+            //Name
+            if ($("#nameInput").val() == '') {
+                errorMessage += " Enter your Name<br/>";
+                errorCounter++;
+            }
+            //End
+                 
+            //Age
+            if ($("#ageInput").val() == '') {
+                errorMessage += " Enter your age<br/>";
+                errorCounter++;
+            }
+            else if (!$.isNumeric($("#ageInput").val()))
+            {
+                errorMessage += " Invalid age-should be numeric<br/>";
+                errorCounter++;
+            }
+            //End
+                  
+            //Email
+            if ($("#emailInput").val() == '') {
+                errorMessage += " Enter your email address<br/>";
+                errorCounter++;
+            }
+            else if (!(EmailValidate())) {
+                errorMessage += " Invalid email address<br/>";
+                errorCounter++;
+            }
+            //End
+      
+            //Sex
+            if ($("#sexSelect").val() == 'Select') {
+                errorMessage += " Please select your sex<br/>";
+                errorCounter++;
+            }
+            //End
+                 
+            //Married
+            if (!($('#marriedCheckBox').prop('checked')))
+            {
+                errorMessage += " You should be married if you want to apply for this job.<br/>";
+                errorCounter++;
+            }
+            //End
+      
+            //Work Permit
+            if ((!($('#workPermitYesRadio').prop('checked'))) && (!($('#workPermitNoRadio').prop('checked')))) {
+                errorMessage += " Tell us your work permit status.<br/>";
+                errorCounter++;
+            }
+            else if (!($('#workPermitYesRadio').prop('checked'))) {
+                errorMessage += " You should have US work permit if you want to apply for this job.<br/>";
+                errorCounter++;
+            }
+            //End
+      
+            $("#errorDiv").html(errorMessage);
+            if (errorCounter == 0) {
+                alert('Thank you, your job application has been submitted successfully. We will contact you soon.')
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+             $("#submitButton").click(function (e) {
+                ValidateAll();
+                return false;
+            });
+        });
+    </script>
+</body>
+</html>
